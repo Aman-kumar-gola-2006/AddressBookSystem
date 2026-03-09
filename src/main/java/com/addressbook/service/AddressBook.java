@@ -1,13 +1,56 @@
 package com.addressbook.service;
 
 import com.addressbook.model.Person;
+import java.util.ArrayList;
+import java.util.Optional;
+import java.util.Scanner;
 
 public class AddressBook {
 
-    public void addContact(Person person) {
+	// List to store contacts
+	ArrayList<Person> contactList = new ArrayList<>();
 
-        System.out.println("Contact Added Successfully");
-        System.out.println(person);
+	// Method to add contact
+	public void addContact(Person person) {
+		contactList.add(person);
+		System.out.println("Contact Added Successfully");
+	}
 
-    }
+	// Method to edit contact using first name
+	public void editContact(String name) {
+
+		Scanner scanner = new Scanner(System.in);
+
+		// Find person using Stream API
+		Optional<Person> personOptional = contactList.stream()
+				.filter(person -> person.getFirstName().equalsIgnoreCase(name)).findFirst();
+
+		if (personOptional.isPresent()) {
+
+			Person person = personOptional.get();
+
+			System.out.print("Enter new Address: ");
+			person.setAddress(scanner.nextLine());
+
+			System.out.print("Enter new City: ");
+			person.setCity(scanner.nextLine());
+
+			System.out.print("Enter new State: ");
+			person.setState(scanner.nextLine());
+
+			System.out.print("Enter new Zip: ");
+			person.setZip(scanner.nextLine());
+
+			System.out.print("Enter new Phone Number: ");
+			person.setPhoneNumber(scanner.nextLine());
+
+			System.out.print("Enter new Email: ");
+			person.setEmail(scanner.nextLine());
+
+			System.out.println("Contact Updated Successfully");
+
+		} else {
+			System.out.println("Contact not found");
+		}
+	}
 }
